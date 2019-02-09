@@ -1,0 +1,11 @@
+*.pyc
+*~
+__pycache__
+venv
+myvenv
+.idea
+/.idea
+/__pycache__
+/venv
+/myvenv
+
