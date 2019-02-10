@@ -2,8 +2,22 @@ import datetime
 
 import pandas as pd
 from my_python.myfirstlib import connect_to_postgres, connect_to_dremio
+"""
+my_python.myfirstlib is custom module for different connections
+connect_to_postgres() returns sqlalchemy.engine
+connect_to_dremio() returns pyodbc.connect("Driver='driver';
+                                      ConnectionType=Direct;
+                                      HOST='host';
+                                      PORT='port';
+                                      AuthenticationType=Plain;
+                                      UID='username';
+                                      PWD='password'",
+                                      autocommit=True)
+"""
 
-
+##########################################################
+# Testing connection to PostgreSQL database using Dremio #
+##########################################################
 with open('SF_dremio2.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
@@ -11,7 +25,11 @@ with open('SF_dremio2.csv', 'w') as csv_file:
 for i in range(2):
     start = datetime.datetime.now()
     engine = connect_to_dremio()
-    sql = 'SELECT * FROM "test_reflections".SFincid'
+    sql = '''SELECT "Category", "Date", COUNT(*)
+            FROM postgresql.public."SFincidents"
+            WHERE "Time" BETWEEN '08:00' AND '22:00'
+            GROUP BY "Category", "Date"
+          '''
     result = pd.read_sql(sql, engine)
     with open('SF_dremio2.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{datetime.datetime.now() - start}\n"
@@ -19,8 +37,9 @@ for i in range(2):
         print(row.replace("\n", ""))
     del engine, result
 
-##############################################################################################
-
+##########################################################
+# Testing connection to PostgreSQL database using Python #
+##########################################################
 with open('SF_python_sql2.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
@@ -35,14 +54,15 @@ for i in range(2):
     GROUP BY "Category", "Date";
      """
     result = pd.read_sql(sql, engine)
-    with open('SF_python_sql.csv', 'a') as csv_file:
+    with open('SF_python_sql2.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{datetime.datetime.now() - start}\n"
         csv_file.write(row)
         print(row.replace("\n", ""))
     del engine, result
 
-##############################################################################################
-
+##########################################################
+# Testing connection to PostgreSQL database using Pandas #
+##########################################################
 with open('SF_pandas.csv2', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
@@ -63,8 +83,9 @@ for i in range(2):
         print(row.replace("\n", ""))
     del engine, result
 
-##############################################################################################
-
+######################################################################
+# Testing connection to PostgreSQL database using Dremio Reflections #
+######################################################################
 with open('SF_dremio_reflections2.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
@@ -72,7 +93,11 @@ with open('SF_dremio_reflections2.csv', 'w') as csv_file:
 for i in range(2):
     start = datetime.datetime.now()
     engine = connect_to_dremio()
-    sql = 'SELECT * FROM "test_reflections".SFincid'
+    sql = '''SELECT "Category", "Date", COUNT(*)
+            FROM postgresql.public."SFincidents"
+            WHERE "Time" BETWEEN '08:00' AND '22:00'
+            GROUP BY "Category", "Date"
+          '''
     result = pd.read_sql(sql, engine)
     with open('SF_dremio_reflections2.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{datetime.datetime.now() - start}\n"
