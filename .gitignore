@@ -9,3 +9,4 @@ myvenv
 /venv
 /myvenv
 
+.DS_Store
