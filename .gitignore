@@ -8,5 +8,11 @@ myvenv
 /__pycache__
 /venv
 /myvenv
-
+/.ipynb_checkpoints
+.ipynb_checkpoints
 .DS_Store
+
+my_python/.ipynb_checkpoints
+/my_python/.ipynb_checkpoints
+my_python/__pycache__
+/my_python/__pycache__
