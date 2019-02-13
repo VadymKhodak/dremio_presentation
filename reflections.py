@@ -18,11 +18,11 @@ connect_to_dremio() returns pyodbc.connect("Driver='driver';
 # #########################################################
 # Testing connection to PostgreSQL database using Dremio #
 #########################################################
-with open('SF_dremio2.csv', 'w') as csv_file:
+with open('SF_dremio.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
     print("SF_dremio")
-for i in range(2):
+for i in range(100):
     start = datetime.datetime.now()
     engine = connect_to_dremio()
     sql = '''SELECT "Category", "Date", COUNT(*)
@@ -31,7 +31,7 @@ for i in range(2):
             GROUP BY "Category", "Date"
           '''
     result = pd.read_sql(sql, engine)
-    with open('SF_dremio2.csv', 'a') as csv_file:
+    with open('SF_dremio.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{(datetime.datetime.now() - start).total_seconds()}\n"
         csv_file.write(row)
         print(row.replace("\n", ""))
@@ -40,11 +40,11 @@ for i in range(2):
 ##########################################################
 # Testing connection to PostgreSQL database using Python #
 ##########################################################
-with open('SF_python_sql2.csv', 'w') as csv_file:
+with open('SF_python_sql.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
     print("SF_python_sql")
-for i in range(2):
+for i in range(100):
     start = datetime.datetime.now()
     engine = connect_to_postgres()
     sql = """
@@ -54,7 +54,7 @@ for i in range(2):
     GROUP BY "Category", "Date";
      """
     result = pd.read_sql(sql, engine)
-    with open('SF_python_sql2.csv', 'a') as csv_file:
+    with open('SF_python_sql.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{(datetime.datetime.now() - start).total_seconds()}\n"
         csv_file.write(row)
         print(row.replace("\n", ""))
@@ -63,11 +63,11 @@ for i in range(2):
 ##########################################################
 # Testing connection to PostgreSQL database using Pandas #
 ##########################################################
-with open('SF_pandas.csv2', 'w') as csv_file:
+with open('SF_pandas.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
     print("SF_pandas")
-for i in range(2):
+for i in range(100):
     start = datetime.datetime.now()
     engine = connect_to_postgres()
     result = pd.read_sql('SELECT * FROM public."SFincidents"', engine)
@@ -77,7 +77,7 @@ for i in range(2):
         ['IncidntNum', 'Descript', 'DayOfWeek', 'Time', 'PdDistrict', 'Resolution',
          'Address', 'X', 'Y', 'Location', 'PdId', 'index_id'], axis=1)
     result = result.groupby(['Category', 'Date']).count()
-    with open('SF_pandas2.csv', 'a') as csv_file:
+    with open('SF_pandas.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{(datetime.datetime.now() - start).total_seconds()}\n"
         csv_file.write(row)
         print(row.replace("\n", ""))
@@ -86,11 +86,11 @@ for i in range(2):
 ######################################################################
 # Testing connection to PostgreSQL database using Dremio Reflections #
 ######################################################################
-with open('SF_dremio_reflections2.csv', 'w') as csv_file:
+with open('SF_dremio_reflections.csv', 'w') as csv_file:
     row_title = f"id,date_time,duration\n"
     csv_file.write(row_title)
     print("SF_dremio_reflections")
-for i in range(2):
+for i in range(100):
     start = datetime.datetime.now()
     engine = connect_to_dremio()
     sql = '''SELECT "Category", "Date", COUNT(*)
@@ -99,7 +99,7 @@ for i in range(2):
             GROUP BY "Category", "Date"
           '''
     result = pd.read_sql(sql, engine)
-    with open('SF_dremio_reflections2.csv', 'a') as csv_file:
+    with open('SF_dremio_reflections.csv', 'a') as csv_file:
         row = f"{i},{datetime.datetime.now()},{(datetime.datetime.now() - start).total_seconds()}\n"
         csv_file.write(row)
         print(row.replace("\n", ""))

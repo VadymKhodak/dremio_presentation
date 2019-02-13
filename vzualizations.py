@@ -25,13 +25,15 @@ SF_python_sql_trace = go.Scatter(x=SF_python_sql.index,
                                  y=SF_python_sql['duration'],
                                  name='Python and SQL')
 
+
 py.plot([SF_dremio_trace,
          SF_postgres_trace,
          SF_reflections_trace,
          SF_pandas_race,
          SF_python_sql_trace])
 
-# py.plot([SF_dremio_trace,
-#          SF_postgres_trace,
-#          SF_reflections_trace,
-#          SF_python_sql_trace])
+
+py.plot([SF_dremio_trace,
+         SF_postgres_trace,
+         SF_reflections_trace,
+         SF_python_sql_trace])
