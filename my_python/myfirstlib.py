@@ -10,6 +10,44 @@ Simple module that has functions:
     connect_to_redshift()
     connect_to_mysql()
     connect_to_mongodb()
+
+    File my_python.connections.py looks like:
+
+    redshift_conn = {
+    'dbname': 'DATABASE_NAME',
+    'host': 'redshift-cluster-2.XXXXXXXXXXX.eu-central-1.redshift.amazonaws.com',
+    'port': 5439,
+    'user': 'USER_NAME',
+    'password': 'PASSWORD'
+    }
+
+    postgres_conn = {
+        "host": "HOST",
+        "database": "DATABASE_NAME",
+        "username": "USER_NAME",
+        "password": "PASSWORD"
+    }
+
+    mysql_conn = {
+        "host": "HOST",
+        "database": "DATABASE_NAME",
+        "username": "USER_NAME",
+        "password": "PASSWORD"
+    }
+
+    dremio_conn = {
+        'host': 'HOST',
+        'port': 31010,
+        'uid': 'USER_NAME',
+        'pwd': 'PASSWORD',
+        'driver': '/Library/Dremio/ODBC/lib/libdrillodbc_sbu.dylib'
+    }
+
+    mongodb_conn = {
+        "host": "HOST",
+        "database": "DATABASE_NAME",
+        "port": 27017
+    }
 """
 
 
