@@ -1,21 +1,34 @@
 # -*- coding: koi8-r -*-
-  
+"""
+Simple module that has functions:
+    xor(first=False, second=False)
+    get_int(arg='')
+    get_str(arg='')
+    get_float(arg='')
+    connect_to_dremio()
+    connect_to_postgres()
+    connect_to_redshift()
+    connect_to_mysql()
+    connect_to_mongodb()
+"""
 
-def xor(a=False, b=False):
+
+def xor(first=False, second=False):
     """
     This is "xor" function
 
-    :param a: boolean
-    :param b: boolean
-    :return: True and True is False, False and False is False, True and False is True, False and True is True
+    :param first: boolean
+    :param second: boolean
+    :return: True and True is False, False and False is False,
+             True and False is True, False and True is True
     """
 
-    if a:
-        if b:
+    if first:
+        if second:
             return False
         else:
             return True
-    elif b:
+    elif second:
         return True
     else:
         return False
@@ -30,13 +43,13 @@ def get_int(arg=''):
     """
 
     while True:
-        x = input('%s' % arg)
+        integer_number = input('%s' % arg)
         try:
-            if type(int(x)) == int:
+            if type(int(integer_number)) is int:
                 break
         except ValueError:
-                print('Retry to enter integer number')
-    return int(x)
+            print('Retry to enter integer number')
+    return int(integer_number)
 
 
 def get_str(arg=''):
@@ -48,13 +61,13 @@ def get_str(arg=''):
     """
 
     while True:
-        x = input('%s' % arg)
+        string = input('%s' % arg)
         try:
-            if type(str(x)) == str:
+            if type(str(string)) is str:
                 break
         except ValueError:
-                print('Retry to enter string')
-    return str(x)
+            print('Retry to enter string')
+    return str(string)
 
 
 def get_float(arg=''):
@@ -66,18 +79,25 @@ def get_float(arg=''):
     """
 
     while True:
-        x = input('%s' % arg)
+        float_number = input('%s' % arg)
         try:
-            if type(float(x)) == float:
+            if type(float(float_number)) is float:
                 break
         except ValueError:
-                print('Retry to enter float number')
-    return float(x)
+            print('Retry to enter float number')
+    return float(float_number)
 
 
 def connect_to_dremio():
-    from connections import dremio_conn
+    """
+    Function to create connection to Dremio using ODBC
+
+    :return: pyodbc.connect
+    """
+
+    from my_python.connections import dremio_conn
     from pyodbc import connect
+
     try:
         host = dremio_conn["host"]
     except KeyError:
@@ -98,12 +118,27 @@ def connect_to_dremio():
         driver = dremio_conn["driver"]
     except KeyError:
         driver = input("Driver: ")
-    return connect(f"Driver={driver};ConnectionType=Direct;HOST={host};PORT={port};AuthenticationType=Plain;UID={uid};PWD={pwd}",autocommit=True)
+    return connect(f"Driver={driver};"
+                   f"ConnectionType=Direct;"
+                   f"HOST={host};"
+                   f"PORT={port};"
+                   f"AuthenticationType=Plain;"
+                   f"UID={uid};"
+                   f"PWD={pwd}",
+                   autocommit=True)
 
 
 def connect_to_postgres():
-    from connections import postgres_conn
+    """
+    Function to create connection to PostgreSQL database using sqlalchemy.
+    Function try to read file connections with connection data.
+
+    :return: sqlalchemy.create_engine
+    """
+
+    from my_python.connections import postgres_conn
     from sqlalchemy import create_engine
+
     try:
         host = postgres_conn["host"]
     except KeyError:
@@ -123,9 +158,17 @@ def connect_to_postgres():
 
     return create_engine(f'postgresql://{username}:{password}@{host}/{database}')
 
+
 def connect_to_redshift():
+    """
+    Function to create connection to Redshit database using sqlalchemy.
+    Function try to read file connections with connection data.
+
+    :return: sqlalchemy.create_engine
+    """
+
     from sqlalchemy import create_engine
-    from connections import redshift_conn
+    from my_python.connections import redshift_conn
 
     try:
         host = redshift_conn['host']
@@ -151,7 +194,14 @@ def connect_to_redshift():
 
 
 def connect_to_mysql():
-    from connections import mysql_conn
+    """
+    Function to create connection to MySQL database using sqlalchemy.
+    Function try to read file connections with connection data.
+
+    :return: sqlalchemy.create_engine
+    """
+
+    from my_python.connections import mysql_conn
     from sqlalchemy import create_engine
     try:
         host = mysql_conn["host"]
@@ -170,12 +220,19 @@ def connect_to_mysql():
     except KeyError:
         password = input("Password: ")
 
-    return create_engine(f'mysql://{username}:{password}@{host}/{database}', isolation_level="READ UNCOMMITTED")
-
+    return create_engine(f'mysql://{username}:{password}@{host}/{database}',
+                         isolation_level="READ UNCOMMITTED")
 
 
 def connect_to_mongodb():
-    from connections import mongodb_conn
+    """
+    Function to create connection to MongoDB database using pymongo.
+    Function try to read file connections with connection data.
+
+    :return: pymongo.MongoClient(host, int(port))[database][collection]
+    """
+
+    from my_python.connections import mongodb_conn
     import pymongo
     try:
         host = mongodb_conn['host']

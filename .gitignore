@@ -16,3 +16,7 @@ my_python/.ipynb_checkpoints
 /my_python/.ipynb_checkpoints
 my_python/__pycache__
 /my_python/__pycache__
+/my_python/connections.py
+
+/tmp
+tmp
